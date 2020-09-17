@@ -15,10 +15,6 @@ return [
 
     'base_url' => config('app.url'),
 
-    'urls' => [
-        '/articles',
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Destination Directory

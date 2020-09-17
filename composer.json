@@ -61,9 +61,8 @@
             "@php artisan key:generate --ansi"
         ],
         "build": [
-            "yarn production",
-            "@php please ssg:generate",
-            "@php artisan sitemap"
+            "npm run production",
+            "@php please ssg:generate"
         ]
     }
 }
