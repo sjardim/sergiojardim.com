@@ -1,7 +1,6 @@
-<div class="max-w-5xl mx-auto relative mt-16 content">
-    <img src="/img/scratches.svg" class="absolute top-0 mt-8 left-0 w-20 hidden md:block">
-    <article class="py-32 max-w-2xl mx-auto content">
-        <h1>{{ title }}</h1>
-        {{ content | widont }}
-    </article>
-</div>
+{{# The outer wrapper grid as defined in tailwind.config.js. It makes sure all blocks on a page get evenly spaced without having to worry about margins or paddings. #}}
+<main class="outer-grid">    
+    {{ page_builder scope="block" }}
+        {{ partial src="page_builder/{type}" }}
+    {{ /page_builder }}
+</main>

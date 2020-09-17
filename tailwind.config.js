@@ -1,223 +1,450 @@
+//--------------------------------------------------------------------------
+// Tailwind configuration
+//--------------------------------------------------------------------------
+//
+// Use this file to completely define the current sites design system by
+// adding and extending to Tailwinds default utility classes.
+//
+
+const _ = require('lodash')
+const defaultTheme = require('tailwindcss/defaultTheme')
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
-    prefix: '',
-    important: true,
-    separator: ':',
-    theme: {
-        screens: {
-            sm: '640px',
-            md: '768px',
-            lg: '1024px',
-            xl: '1280px',
+  future: {
+    extendedSpacingScale: true,
+    purgeLayersByDefault: true,
+    removeDeprecatedGapUtilities: true,
+  },
+  //--------------------------------------------------------------------------
+  // Dark mode (experimental)
+  //--------------------------------------------------------------------------
+  //
+  // Uncomment the following to use experimental dark mode support.
+  // More info: https://github.com/tailwindlabs/tailwindcss/pull/2279
+  //
+  // dark: 'media', // or 'class'
+  // experimental {
+  //   darkModeVariant: true,
+  // },
+  purge: {
+    content: [
+      './resources/views/**/*.html',
+      './resources/js/**/*.js',
+    ],
+    options: {
+      whitelist: ['size-sm', 'size-md', 'size-lg', 'size-xl']
+    }
+  },  
+  theme: {
+  
+    //--------------------------------------------------------------------------
+    // Extend configuration
+    //--------------------------------------------------------------------------
+    //
+    // Here you may extend Tailwinds utility classes. Some defaults are 
+    // provided.
+    //
+    extend: {
+      colors: {
+        // Error styling colors: red (TW Red)
+        error: {
+          50: '#FDF2F2',
+          100: '#FCE8E8',
+          200: '#FBD5D5',
+          300: '#F8B4B3',
+          400: '#F88080',
+          500: '#F05252',
+          600: '#E02423',
+          700: '#C81F1D',
+          800: '#9B1D1C',
+          900: '#771D1D',
         },
-        colors: {
-            transparent: 'transparent',
-            black: '#000',
-            white: '#fff',
-            teal: '#008483',
-            'teal-light': '#a6d0cf',
-            gray: {
-                100: '#f7fafc',
-                200: '#edf2f7',
-                300: '#e2e8f0',
-                400: '#cbd5e0',
-                500: '#a0aec0',
-                600: '#68768a',
-                700: '#4a5568',
-                800: '#2d3748',
-                900: '#1a202c',
+        // Notice styling colors: yellow (TW Yellow)
+        notice: {
+          50: '#FDFDEA',
+          100: '#FDF5B2',
+          200: '#FCE96B',
+          300: '#FACA16',
+          400: '#E3A009',
+          500: '#C27805',
+          600: '#9F580B',
+          700: '#8E4B10',
+          800: '#723A14',
+          900: '#643112',
+        },
+        // Success styling colors: green (TW Green)
+        success: {
+          50: '#F3FAF7',
+          100: '#DEF7EC',
+          200: '#BBF0DA',
+          300: '#84E1BC',
+          400: '#30C48D',
+          500: '#0D9F6E',
+          600: '#047A55',
+          700: '#036C4E',
+          800: '#06543F',
+          900: '#024737',
+        },
+      },
+      fontFamily: {
+        mono: [
+          // Use a custom mono font for this site by changing 'Anonymous' to the 
+          // font name you want and uncommenting the following line.
+          // 'Anonymous',
+          ...defaultTheme.fontFamily.mono,
+        ],
+        sans: [
+          // font name you want and uncommenting the following line.
+          'Inter',
+          ...defaultTheme.fontFamily.sans,
+        ],
+        serif: [
+          // Use a custom serif font for this site by changing 'Lavigne' to the 
+          // font name you want and uncommenting the following line.
+          // 'Lavigne',
+          ...defaultTheme.fontFamily.serif,
+        ],
+      },
+      padding: {
+        // Used to generate responsive video embeds.
+        'video': '56.25%',
+      },
+      screens: {
+        // Add a slightly wider breakpoint.
+        '2xl': '1440px',
+      },
+      spacing: {
+        // Used for the mobile navigation toggle.
+        'safe': 'calc(env(safe-area-inset-bottom, 0rem) + 2rem)',
+      },
+      zIndex: {
+        // Z-index stuff behind it's parent.
+        'behind': '-1',
+      },
+    },
+    //--------------------------------------------------------------------------
+    // Tailwind Typography configuration
+    //--------------------------------------------------------------------------
+    //
+    // Here you may overwrite the default Tailwind Typography (or prosé) styles.
+    // Some defaults are provided.
+    // More info: https://github.com/tailwindcss/typography.
+    //
+    typography: (theme) => ({
+      default: {
+        css: {
+          color: theme('colors.neutral.800'),
+          '[class~="lead"]': {
+            color: theme('colors.neutral.800'),
+          },
+          a: {
+            color: theme('colors.primary.600'),
+            '&:hover': {
+              color: theme('colors.primary.800'),
             },
+          },
+          'a.no-underline': {
+            textDecoration: 'none',
+          },
+          'h1, h2, h3, h4': {
+            scrollMarginTop: theme('spacing.36'), 
+            color: theme('colors.neutral.900'),
+          },
+          blockquote: {
+            borderColor: theme('colors.primary.200'),
+          },
+          hr: {
+            borderColor: theme('colors.neutral.100'), 
+          },
+          'figure, img, picture, video, code': {
+            marginTop: 0,
+            marginBottom: 0,
+          },
+          'figure figcaption': {
+            color: 'inherit',
+          },
+          'ul > li::before': { 
+            backgroundColor: theme('colors.neutral.500'),
+          },
+          'ol > li::before': { 
+            color: theme('colors.neutral.500'),
+          },
+          'figure figcaption': {
+            color: theme('colors.neutral.500'),
+          },
+          thead: {
+            borderBottomColor: theme('colors.neutral.200'),
+          },
+          'tbody tr': {
+            borderBottomColor: theme('colors.neutral.100'),
+          },
+          pre: {
+            whiteSpace: 'pre-wrap',
+          },
+        }
+      }
+    }),
+    //--------------------------------------------------------------------------
+    // Tailwind Custom Forms configuration
+    //--------------------------------------------------------------------------
+    //
+    // Here you may overwrite the default Tailwind Custom Forms styles.
+    // Some defaults are provided.
+    // More info: https://github.com/tailwindlabs/tailwindcss-custom-forms.
+    //
+    customForms: theme => ({
+      default: {
+        input: {
+          borderColor: theme('colors.neutral.300'),
+          color: theme('colors.neutral.800'),
         },
-        spacing: {
-            px: '1px',
-            '0': '0',
-            '1': '0.25rem',
-            '2': '0.5rem',
-            '3': '0.75rem',
-            '4': '1rem',
-            '5': '1.25rem',
-            '6': '1.5rem',
-            '8': '2rem',
-            '10': '2.5rem',
-            '12': '3rem',
-            '16': '4rem',
-            '20': '5rem',
-            '24': '6rem',
-            '32': '8rem',
-            '40': '10rem',
-            '48': '12rem',
-            '56': '14rem',
-            '64': '16rem',
+      },
+      error: {
+        'input, textarea': {
+          borderColor: theme('colors.error.700'),
         },
-        backgroundColor: theme => theme('colors'),
-        borderColor: theme => ({
-            ...theme('colors'),
-            default: theme('colors.gray.800', 'currentColor'),
-        }),
-        boxShadow: {
-            default: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-            md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-            lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-            xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-            '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-            inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
-            outline: '0 0 0 3px rgba(66, 153, 225, 0.5)',
-            none: 'none',
+      },
+    })
+  },
+  //--------------------------------------------------------------------------
+  // Tailwind variants configuration
+  //--------------------------------------------------------------------------
+  //
+  // Here you may extend the variants Tailwind generates.
+  // Some often used group-hover variants are added here.
+  // More info: https://tailwindcss.com/docs/configuration/#app
+  //
+  variants: {
+    boxShadow: ['responsive', 'hover', 'focus', 'group-hover'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'group-hover'],
+    opacity: ['responsive', 'hover', 'focus', 'group-hover'],
+    scale: ['responsive', 'hover', 'focus', 'group-hover'],
+    skew: ['responsive', 'hover', 'focus', 'group-hover'],
+    rotate: ['responsive', 'hover', 'focus', 'group-hover'],
+    textColor: ['responsive', 'hover', 'focus', 'group-hover'],
+    translate: ['responsive', 'hover', 'focus', 'group-hover'],
+  },
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/custom-forms'),
+    //--------------------------------------------------------------------------
+    // Tailwind custom Peak plugins
+    //--------------------------------------------------------------------------
+    //
+    // Here we define base styles used by Peak. You may overwrite those to
+    // reflect your sites brand or add more.
+    //
+    plugin(function({ addBase, theme }) {
+      addBase({
+        ':root': {
+          // Fluid typography from 1 rem to 1.15 rem with fallback to 16px. 
+          fontSize: '16px',
+          'font-size': 'clamp(1rem, 1.6vw, 1.2rem)',
+          // Safari resize fix. 
+          minHeight: '0vw',
         },
-        container: {},
-        fontFamily: {
-            sans: [
-                'Inter',
-                '-apple-system',
-                'BlinkMacSystemFont',
-                '"Segoe UI"',
-                'Roboto',
-                '"Helvetica Neue"',
-                'Arial',
-                '"Noto Sans"',
-                'sans-serif',
-                '"Apple Color Emoji"',
-                '"Segoe UI Emoji"',
-                '"Segoe UI Symbol"',
-                '"Noto Color Emoji"',
-            ],
-            mono: [
-                'Menlo',
-                'Monaco',
-                'Consolas',
-                '"Liberation Mono"',
-                '"Courier New"',
-                'monospace',
-            ],
+        // Used to hide alpine elements before being rendered.
+        '[x-cloak]': { 
+          display: 'none'
         },
-        fontSize: {
-            xs: '0.75rem',
-            sm: '0.875rem',
-            base: '1rem',
-            lg: '1.125rem',
-            xl: '1.25rem',
-            '2xl': '1.5rem',
-            '3xl': '1.875rem',
-            '4xl': '2.25rem',
-            '5xl': '3rem',
-            '6xl': '4rem',
+        // Default color transition on links.
+        'a': {
+          transition: 'color .2s ease-in-out',
         },
-        letterSpacing: {
-            tighter: '-0.022em',
-            tight: '-0.019em',
-            normal: '-0.11em',
-            wide: '0',
-            wider: '0.024em',
-            widest: '0.043em',
+        'html': {
+          fontDisplay: 'swap',
+          color: theme('colors.neutral.800'),
+          fontSize: '16px',
+          // Fluid typography from 1 rem to 1.15 rem. 
+          'font-size': 'clamp(1rem, 2vw, 1.15rem)',
+          //--------------------------------------------------------------------------
+          // Set sans, serif or mono stack with optional custom font as default.
+          //--------------------------------------------------------------------------
+          // fontFamily: theme('fontFamily.mono').join(', '),
+          fontFamily: theme('fontFamily.sans').join(', '),
+          // fontFamily: theme('fontFamily.serif').join(', '),
         },
-        lineHeight: {
-            none: '1',
-            tight: '1.25',
-            snug: '1.375',
-            normal: '1.5',
-            relaxed: '1.625',
-            loose: '2',
+        '::selection': {
+          backgroundColor: theme('colors.primary.600'),
+          color: theme('colors.white'),
         },
-        listStyleType: {
-            none: 'none',
-            disc: 'disc',
-            decimal: 'decimal',
+        '::-moz-selection': {
+          backgroundColor: theme('colors.primary.600'),
+          color: theme('colors.white'),
         },
-        margin: (theme, { negative }) => ({
-            auto: 'auto',
-            ...theme('spacing'),
-            ...negative(theme('spacing')),
-        }),
-        maxHeight: {
-            full: '100%',
-            screen: '100vh',
+        //--------------------------------------------------------------------------
+        // Display screen breakpoints in debug environment.
+        //--------------------------------------------------------------------------
+        'body.debug::before': {
+          display: 'block',
+          position: 'fixed',
+          zIndex: '99',
+          top: theme('spacing.1'),
+          right: theme('spacing.1'),
+          padding: theme('spacing.1'),
+          border: '1px',
+          borderStyle: 'solid',
+          borderColor: theme('colors.notice.300'),
+          borderRadius: theme('borderRadius.full'),
+          backgroundColor: theme('colors.notice.200'),
+          fontSize: '.5rem',
+          color: theme('colors.notice.900'),
+          textTransform: 'uppercase',
+          fontWeight: theme('fontWeight.bold'),
+          content: '"-"',
+          pointerEvents: 'none',
         },
-        maxWidth: {
-            xs: '20rem',
-            sm: '24rem',
-            md: '28rem',
-            lg: '32rem',
-            xl: '36rem',
-            '2xl': '42rem',
-            '3xl': '48rem',
-            '4xl': '56rem',
-            '5xl': '64rem',
-            '6xl': '72rem',
-            full: '100%',
+      })
+    }),
+
+    plugin(function({ addBase, theme}) {
+      const breakpoints = _.map(theme('screens'), (value, key) => {
+        return {
+          [`@media (min-width: ${value})`]: {
+            'body.debug::before': {
+              content: `"${key}"`,
+            }
+          }
+        }
+      })
+      addBase(breakpoints)
+    }),
+
+    //--------------------------------------------------------------------------
+    // Tailwind custom components
+    //--------------------------------------------------------------------------
+    //
+    // Here we define custom components used by Peak.
+    //
+    plugin(function({ addComponents, theme }) {
+      const components = {
+        // The main wrapper for all sections on our website. Has a max width and is centered. 
+        '.fluid-container': {
+          width: '100%',
+          maxWidth: theme('screens.2xl'),
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          // Use safe-area-inset together with default padding for Apple devices with a notch.
+          paddingLeft: 'calc(env(safe-area-inset-left, 0rem) + ' + theme('padding.8') + ')',
+          paddingRight: 'calc(env(safe-area-inset-right, 0rem) + ' + theme('padding.8') + ')',
         },
-        minHeight: {
-            '0': '0',
-            full: '100%',
-            screen: '100vh',
+        // Disable scroll e.g. when a modal is open. Should be used on the <body>
+        '.no-scroll': {
+          height: '100%',
+          overflow: 'hidden',
         },
-    },
-    variants: {
-        accessibility: ['responsive', 'focus'],
-        alignContent: ['responsive'],
-        alignItems: ['responsive'],
-        alignSelf: ['responsive'],
-        appearance: ['responsive'],
-        backgroundAttachment: ['responsive'],
-        backgroundColor: ['responsive', 'hover', 'focus'],
-        backgroundPosition: ['responsive'],
-        backgroundRepeat: ['responsive'],
-        backgroundSize: ['responsive'],
-        borderCollapse: ['responsive'],
-        borderColor: ['responsive', 'hover', 'focus'],
-        borderRadius: ['responsive'],
-        borderStyle: ['responsive'],
-        borderWidth: ['responsive'],
-        boxShadow: ['responsive', 'hover', 'focus'],
-        cursor: ['responsive'],
-        display: ['responsive'],
-        fill: ['responsive'],
-        flex: ['responsive'],
-        flexDirection: ['responsive'],
-        flexGrow: ['responsive'],
-        flexShrink: ['responsive'],
-        flexWrap: ['responsive'],
-        float: ['responsive'],
-        fontFamily: ['responsive'],
-        fontSize: ['responsive'],
-        fontSmoothing: ['responsive'],
-        fontStyle: ['responsive'],
-        fontWeight: ['responsive', 'hover', 'focus'],
-        height: ['responsive'],
-        inset: ['responsive'],
-        justifyContent: ['responsive'],
-        letterSpacing: ['responsive'],
-        lineHeight: ['responsive'],
-        listStylePosition: ['responsive'],
-        listStyleType: ['responsive'],
-        margin: ['responsive'],
-        maxHeight: ['responsive'],
-        maxWidth: ['responsive'],
-        minHeight: ['responsive'],
-        minWidth: ['responsive'],
-        objectFit: ['responsive'],
-        objectPosition: ['responsive'],
-        opacity: ['responsive', 'hover', 'focus'],
-        order: ['responsive'],
-        outline: ['responsive', 'focus'],
-        overflow: ['responsive'],
-        padding: ['responsive'],
-        placeholderColor: ['responsive', 'focus'],
-        pointerEvents: ['responsive'],
-        position: ['responsive'],
-        resize: ['responsive'],
-        stroke: ['responsive'],
-        tableLayout: ['responsive'],
-        textAlign: ['responsive'],
-        textColor: ['responsive', 'hover', 'focus'],
-        textDecoration: ['responsive', 'hover', 'focus'],
-        textTransform: ['responsive'],
-        userSelect: ['responsive'],
-        verticalAlign: ['responsive'],
-        visibility: ['responsive'],
-        whitespace: ['responsive'],
-        width: ['responsive'],
-        wordBreak: ['responsive'],
-        zIndex: ['responsive'],
-    },
-    corePlugins: {},
-    plugins: [],
+        // The outer grid where all our blocks are a child of. Spreads out all blocks vertically
+        // with a uniform space between them.
+        '.outer-grid': {
+          width: '100%',
+          display: 'grid',
+          rowGap: theme('spacing.12'),
+          paddingTop: theme('spacing.12'),
+          paddingBottom: theme('spacing.12'),
+          // If the last child of the outer grid is full width (e.g. when it has a full width 
+          // colored background), give it negative margin bottom to get it flush to your 
+          // sites footer.
+          '& > *:last-child:has(.w-full)': {
+            marginBottom: theme('spacing.12') * -1,
+          },
+        },
+        [`@media (min-width: ${theme('screens.md')})`]: {
+          // Larger vertical spacing between blocks on larger screens.
+          '.outer-grid': {
+            rowGap: theme('spacing.16'),
+            paddingTop: theme('spacing.16'),
+            paddingBottom: theme('spacing.16'),
+            '& > *:last-child:has(.w-full)': {
+              marginBottom: theme('spacing.16') * -1,
+            },
+          },
+        },
+        [`@media (min-width: ${theme('screens.lg')})`]: {
+          // Larger horizontal padding on larger screens.
+          '.fluid-container': {
+            // Use safe-area-inset together with default padding for Apple devices with a notch.
+            paddingLeft: 'calc(env(safe-area-inset-left, 0rem) + ' + theme('padding.12') + ')',
+            paddingRight: 'calc(env(safe-area-inset-right, 0rem) + ' + theme('padding.12') + ')',
+          },
+          // Larger vertical spacing between blocks on larger screens.
+          '.outer-grid': {
+            rowGap: theme('spacing.24'),
+            paddingTop: theme('spacing.24'),
+            paddingBottom: theme('spacing.24'),
+            '& > *:last-child:has(.w-full)': {
+              marginBottom: theme('spacing.24') * -1,
+            },
+          },
+        },
+      }
+      addComponents(components)
+    }),
+
+    //--------------------------------------------------------------------------
+    // Tailwind custom utilities
+    //--------------------------------------------------------------------------
+    //
+    // Here we define custom utilities not provided by Tailwind.
+    //
+    plugin(function({ addUtilities, theme, variants }) {
+      const newUtilities = {
+        // Sizing utilities for sets in our bard (long form content).
+        // On small devices they're full width.
+        '.size-sm, .size-md, .size-lg, .size-xl, .size-2xl': {
+          gridColumn: 'span 12 / span 12',
+        },
+        [`@media (min-width: ${theme('screens.md')})`]: {
+          // Sizing utilities for sets in our bard (long form content).
+          // On larger devices they go from small to extra large.
+          // (E.g. an image wider then text in an article.)
+          '.size-sm': {
+            gridColumn: 'span 4 / span 4',
+            gridColumnStart: '3',
+          },
+          '.size-md': {
+            gridColumn: 'span 6 / span 6',
+            gridColumnStart: '3',
+          },
+          '.size-lg': {
+            gridColumn: 'span 8 / span 8',
+            gridColumnStart: '3',
+          }, 
+          '.size-xl': {
+            gridColumn: 'span 10 / span 10',
+            gridColumnStart: '2',
+          },
+          '.size-2xl': {
+            gridColumn: 'span 12 / span 12',
+            gridColumnStart: '1',
+          },
+        },
+        [`@media (min-width: ${theme('screens.lg')})`]: {
+          // Sizing utilities for sets in our bard (long form content).
+          // On larger devices they go from small to extra large.
+          '.size-sm': {
+            gridColumn: 'span 4 / span 4',
+            gridColumnStart: '4',
+          },
+          '.size-md': {
+            gridColumn: 'span 6 / span 6',
+            gridColumnStart: '4',
+          },
+          '.size-lg': {
+            gridColumn: 'span 8 / span 8',
+            gridColumnStart: '3',
+          }, 
+          '.size-xl': {
+            gridColumn: 'span 10 / span 10',
+            gridColumnStart: '2',
+          },
+          '.size-2xl': {
+            gridColumn: 'span 12 / span 12',
+            gridColumnStart: '1',
+          },
+        },
+      }
+      addUtilities(newUtilities)
+    }),
+  ]
 }

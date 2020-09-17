@@ -1,0 +1,7 @@
+title: Code Block
+fields:
+  -
+    handle: code
+    field:
+        type: markdown_highlight
+        display: Code

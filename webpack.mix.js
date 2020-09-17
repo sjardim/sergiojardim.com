@@ -1,29 +1,28 @@
 const mix = require('laravel-mix');
-require('laravel-mix-purgecss');
+require('laravel-mix-modernizr');
 
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel application. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
- */
+mix.js('resources/js/site.js', 'public/js/site.js')
+    .modernizr({
+        Modernizr: 'modernizr.config.js'
+    })
+    .sourceMaps()
 
-mix.js('resources/js/site.js', 'public/js')
-mix.postCss('resources/css/tailwind.css', 'public/css', [
-  require('postcss-import'),
-  require('tailwindcss'),
-  require('postcss-nested'),
-  require('postcss-preset-env')({stage: 0})
-])
+mix.postCss('resources/css/tailwind.css', 'public/css/site.css', [
+    require('postcss-import'),
+    require('tailwindcss'),
+    require('postcss-nested'),
+    require('autoprefixer'),
+]);  
 
-if (mix.inProduction()) {
-  mix.version();
-  mix.purgeCss({
-    enabled: true,
-    whitelistPatternsChildren: [/^content$/],
-  });
-}
+mix.browserSync({
+    proxy: process.env.APP_URL,
+    files: [
+        'resources/views/**/*.html', 
+        'public/**/*.(css|js)', 
+    ],
+    // Option to open in non default OS browser.
+    // browser: "firefox",
+    notify: false
+});
+
+mix.version();

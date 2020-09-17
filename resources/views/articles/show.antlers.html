@@ -10,7 +10,9 @@
             on {{ date format="M j, Y" }}
         </div>
         <div class="content">
-            {{ content | widont }}
+            {{ page_builder scope="block" }}
+                {{ partial src="page_builder/{type}" }}
+            {{ /page_builder }}
         </div>
     </article>
 </div>

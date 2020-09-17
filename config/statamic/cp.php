@@ -38,16 +38,11 @@ return [
     */
 
     'widgets' => [
-        'getting_started',
+        // 'getting_started',
         [
             'type' => 'collection',
-            'collection' => 'articles',
-            'width' => 50,
-            'limit' => 10
-        ],
-        [
-            'type' => 'updater',
-            'width' => 50,
+            'collection' => 'pages',
+            'width' => 50
         ],
     ],
 
@@ -83,6 +78,6 @@ return [
     |
     */
 
-    'link_to_docs' => true,
+    'link_to_docs' => false,
 
 ];

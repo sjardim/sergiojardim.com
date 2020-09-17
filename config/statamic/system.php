@@ -8,9 +8,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | The license key for the corresponding domain from your Statamic account.
-    | Without a key entered, your app will considered to be in Trial Mode.
+    | Without a key entered, you will considered to be in Trial Mode.
     |
-    | https://statamic.dev/licensing#trial-mode
+    | https://docs.statamic.com/knowledge-base/trial-mode
     |
     */
 
@@ -67,19 +67,6 @@ return [
     */
 
     'charset' => 'UTF-8',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Track Last Update
-    |--------------------------------------------------------------------------
-    |
-    | Statamic will automatically set an `updated_at` timestamp (along with
-    | `updated_by`, where applicable) when specific content is updated.
-    | In some situations, you may wish disable this functionality.
-    |
-    */
-
-    'track_last_update' => true,
 
     /*
     |--------------------------------------------------------------------------

@@ -128,21 +128,8 @@ return [
     */
 
     'ignored_events' => [
-        // \Statamic\Events\UserSaved::class,
-        // \Statamic\Events\UserDeleted::class,
+        // \Statamic\Events\Data\UserSaved::class,
+        // \Statamic\Events\Data\UserDeleted::class,
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Locale
-    |--------------------------------------------------------------------------
-    |
-    | The locale to be used when translating commit messages, etc. By
-    | default, the authenticated user's locale will be used, but
-    | feel free to override this using the provided variable.
-    |
-    */
-
-    'locale' => env('STATAMIC_GIT_LOCALE', null),
 
 ];

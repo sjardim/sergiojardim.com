@@ -6,24 +6,47 @@ sections:
       -
         handle: title
         field:
-          character_limit: 0
           type: text
-          localizable: false
+          required: true
+          input_type: text
+          
+          listable: true
           display: Title
+          validate:
+            - required
       -
-        handle: content
-        field:
-          restrict: false
-          automatic_line_breaks: true
-          automatic_links: false
-          escape_markup: true
-          smartypants: false
-          type: markdown
-          localizable: false
-          display: Content
+        import: page_builder
+  seo:
+    display: SEO
+    fields:
       -
-        handle: template
+        import: seo
+  sidebar:
+    display: Sidebar
+    fields:
+      -
+        handle: meta
         field:
-          type: template
-          localizable: false
-          display: Template
+          type: section
+          instructions: 'This entry''s meta data.'
+          display: Meta
+      -
+        handle: slug
+        field:
+          type: slug
+          required: true
+          
+          generate: true
+          listable: hidden
+          display: Slug
+          validate:
+            - required
+      -
+        handle: parent
+        field:
+          type: entries
+          collections:
+            - pages
+          max_items: 1
+          listable: false
+          

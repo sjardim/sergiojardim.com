@@ -1,0 +1,28 @@
+[build]
+publish = "storage/app/static"
+command = "composer build"
+
+[context.production.environment]
+PHP_VERSION="7.4"
+APP_KEY="base64:fYr2ZXXnHvifHZFoyc0EBPXuRoe4KDtXSFNRa5naXbQ="
+APP_URL="https://www.sergiojardim.com"
+
+[[headers]]
+  for = "/feed"
+  [headers.values]
+	Content-Type = "application/rss+xml"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+	Content-Type = "application/xml"
+
+[[headers]]
+  for = "css/site.css"
+  [headers.values]
+    Cache-Control = "max-age=31536000"
+
+[[headers]]
+  for = "js/site.js"
+  [headers.values]
+    Cache-Control = "max-age=31536000"
